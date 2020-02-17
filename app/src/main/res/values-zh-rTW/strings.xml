@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GuessKotlin</string>
+    <string name="bigger">大一點</string>
+    <string name="message">訊息標題</string>
+    <string name="ok">確認</string>
+    <string name="please_enter_anumber">請輸入數字</string>
+    <string name="smaller">小一點</string>
+    <string name="yes_you_got_it">讚!答對了</string>
+</resources>
