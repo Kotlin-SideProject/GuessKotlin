@@ -1,5 +1,7 @@
 package com.angus.guesskotlin
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -31,6 +33,49 @@ class MaterialActivity : AppCompatActivity() {
               .show()
         }
         counter.setText("第${secretNumber.count}次")
+        Log.d(TAG, "onCreate:  ${secretNumber.secret}" );
+
+        val count =  getSharedPreferences("guess", Context.MODE_PRIVATE)
+            .getInt("REC_COUNTER", -1)
+        val nick = getSharedPreferences("guess", Context.MODE_PRIVATE)
+            .getString("REC_NICKNAME", null)
+        Log.d(TAG, "onCreate:  ${count}/${nick}");
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart:" );
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume:" );
+
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d(TAG, "onRestart:" );
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause:" );
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop:" );
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy:" );
+
     }
 
     fun check(view : View){
@@ -48,7 +93,13 @@ class MaterialActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.message))
             .setMessage(message)
-            .setPositiveButton(getString(R.string.ok), null)
+            .setPositiveButton(getString(R.string.ok), {dialog, which ->
+               if(diff == 0){
+                   val intent = Intent(this, RecordActivity::class.java)
+                   intent.putExtra("COUNTER", secretNumber.count)
+                   startActivity(intent)
+               }
+            })
             .show()
         counter.setText("第${secretNumber.count}次")
         ed_number.setText("")
