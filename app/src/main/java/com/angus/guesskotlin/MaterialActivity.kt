@@ -9,6 +9,10 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import com.angus.guesskotlin.data.GameDatabase
+import com.angus.guesskotlin.data.Record
 
 import kotlinx.android.synthetic.main.activity_material.*
 import kotlinx.android.synthetic.main.content_material.*
@@ -33,6 +37,15 @@ class MaterialActivity : AppCompatActivity() {
         val nick = getSharedPreferences("guess", Context.MODE_PRIVATE)
             .getString("REC_NICKNAME", null)
         Log.d(TAG, "onCreate:  ${count}/${nick}");
+
+        //Room Dao
+        val database = Room.databaseBuilder(this@MaterialActivity,
+            GameDatabase::class.java, "game.db")
+            .build()
+        val record = Record("jack", 3)
+        Thread(){
+            database.recordDao().insert(record)
+        }.start()
     }
 
     private fun replay() {

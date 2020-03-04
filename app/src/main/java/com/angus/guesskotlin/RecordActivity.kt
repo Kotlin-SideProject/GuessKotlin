@@ -5,6 +5,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.room.Room
+import com.angus.guesskotlin.data.GameDatabase
+import com.angus.guesskotlin.data.Record
 import kotlinx.android.synthetic.main.activity_record.*
 
 class RecordActivity : AppCompatActivity() {
@@ -21,6 +24,15 @@ class RecordActivity : AppCompatActivity() {
                 .putInt("REC_COUNTER", count)
                 .putString("REC_NICKNAME", nick)
                 .apply()
+
+            //Room Dao
+            val database = Room.databaseBuilder(this@RecordActivity,
+                GameDatabase::class.java, "game.db")
+                .build()
+            val record = Record(nick, count)
+            Thread(){
+                database.recordDao().insert(record)
+            }.start()
 
             val intent = Intent()
             intent.putExtra("NICKNAME", nick)
