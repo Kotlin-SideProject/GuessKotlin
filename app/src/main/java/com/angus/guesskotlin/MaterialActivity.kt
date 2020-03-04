@@ -3,6 +3,7 @@ package com.angus.guesskotlin
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -38,14 +39,14 @@ class MaterialActivity : AppCompatActivity() {
             .getString("REC_NICKNAME", null)
         Log.d(TAG, "onCreate:  ${count}/${nick}");
 
-        //Room Dao
-        val database = Room.databaseBuilder(this@MaterialActivity,
-            GameDatabase::class.java, "game.db")
-            .build()
-        val record = Record("jack", 3)
-        Thread(){
-            database.recordDao().insert(record)
-        }.start()
+        //Room Dao Query
+        AsyncTask.execute {
+            val list =  GameDatabase.getInstance(this)?.recordDao()?.getAll()
+            list?.forEach {
+                Log.d(TAG, "record: ${it.nickname}${it.count}");
+            }
+        }
+
     }
 
     private fun replay() {

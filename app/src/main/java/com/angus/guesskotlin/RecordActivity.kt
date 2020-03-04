@@ -26,12 +26,8 @@ class RecordActivity : AppCompatActivity() {
                 .apply()
 
             //Room Dao
-            val database = Room.databaseBuilder(this@RecordActivity,
-                GameDatabase::class.java, "game.db")
-                .build()
-            val record = Record(nick, count)
             Thread(){
-                database.recordDao().insert(record)
+                GameDatabase.getInstance(this)?.recordDao()?.insert(Record(nick, count))
             }.start()
 
             val intent = Intent()
