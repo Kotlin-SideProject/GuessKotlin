@@ -3,37 +3,51 @@ package com.angus.guesskotlin
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.row_function.view.*
 
 class MainActivity : AppCompatActivity() {
-    val secretNumber = SecretNumber()
-    val TAG = MainActivity::class.java.simpleName
+    val functions = listOf<String>(
+        "camera",
+        "Invite friends",
+        "Parking",
+        "Download coupons",
+        "News",
+        "Maps")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Log.d(TAG, "secret : " + secretNumber.secret)
+        //RecyclerView
+        recycler.layoutManager = LinearLayoutManager(this)
+        recycler.setHasFixedSize(true)
+        recycler.adapter = FunctionAdapter()
     }
-
-    fun check(view : View){
-        var n = ed_number.text.toString().toInt()
-        println("number : $n")
-        Log.d(TAG, "number  $n")
-        val diff = secretNumber.validate(n)
-        var message = getString(R.string.yes_you_got_it)
-        if (diff > 0){
-            message = getString(R.string.smaller)
-        }else if(diff < 0){
-            message = getString(R.string.bigger)
+    inner class FunctionAdapter : RecyclerView.Adapter<FunctionHolder>() {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FunctionHolder {
+            var view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.row_function, parent, false)
+            return FunctionHolder(view)
         }
-//        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.message))
-            .setMessage(message)
-            .setPositiveButton(getString(R.string.ok), null)
-            .show()
-        ed_number.setText("")
+
+        override fun getItemCount(): Int {
+            return functions.size
+        }
+
+        override fun onBindViewHolder(holder: FunctionHolder, position: Int) {
+//            Log.d("onBindViewHolder", "position:${position} ");
+            holder.nameText.setText(functions.get(position))
+        }
+
+    }
+    class FunctionHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+        var nameText  = itemView.name
     }
 }
