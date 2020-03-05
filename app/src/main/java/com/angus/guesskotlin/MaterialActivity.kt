@@ -39,13 +39,13 @@ class MaterialActivity : AppCompatActivity() {
             .getString("REC_NICKNAME", null)
         Log.d(TAG, "onCreate:  ${count}/${nick}");
 
-        //Room Dao Query
-        AsyncTask.execute {
-            val list =  GameDatabase.getInstance(this)?.recordDao()?.getAll()
-            list?.forEach {
-                Log.d(TAG, "record: ${it.nickname}${it.count}");
-            }
-        }
+//        //Room Dao Query
+//        AsyncTask.execute {
+//            val list =  GameDatabase.getInstance(this)?.recordDao()?.getAll()
+//            list?.forEach {
+//                Log.d(TAG, "record: ${it.nickname}${it.count}");
+//            }
+//        }
 
     }
 

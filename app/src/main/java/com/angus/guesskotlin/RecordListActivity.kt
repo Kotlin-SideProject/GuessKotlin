@@ -6,6 +6,10 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.angus.guesskotlin.data.GameDatabase
 import kotlinx.android.synthetic.main.activity_record_list.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 class RecordListActivity : AppCompatActivity() {
 
@@ -14,11 +18,12 @@ class RecordListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_record_list)
 
         //get records from database
-        AsyncTask.execute {
-            var records = GameDatabase.getInstance(this)?.recordDao()?.getAll()
+        //Coroutines
+        CoroutineScope(Dispatchers.IO).launch {
+            var records = GameDatabase.getInstance(this@RecordListActivity)?.recordDao()?.getAll()
             records?.let {
                 runOnUiThread {
-                    recycler.layoutManager = LinearLayoutManager(this)
+                    recycler.layoutManager = LinearLayoutManager(this@RecordListActivity)
                     recycler.setHasFixedSize(true)
                     recycler.adapter = RecordAdapter(it) }
             }
