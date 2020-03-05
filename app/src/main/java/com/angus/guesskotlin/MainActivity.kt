@@ -1,5 +1,6 @@
 package com.angus.guesskotlin
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -16,9 +17,9 @@ import kotlinx.android.synthetic.main.row_function.view.*
 
 class MainActivity : AppCompatActivity() {
     val functions = listOf<String>(
-        "camera",
-        "Invite friends",
-        "Parking",
+        "Camera",
+        "Guess Game",
+        "Record",
         "Download coupons",
         "News",
         "Maps")
@@ -44,9 +45,21 @@ class MainActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: FunctionHolder, position: Int) {
 //            Log.d("onBindViewHolder", "position:${position} ");
             holder.nameText.setText(functions.get(position))
+            holder.itemView.setOnClickListener {
+                functionClicked(position)
+            }
         }
 
     }
+
+    private fun functionClicked(position: Int) {
+        when(position){
+            1 -> startActivity(Intent(this, MaterialActivity::class.java))
+            2 -> startActivity(Intent(this, RecordListActivity::class.java))
+            else -> return
+        }
+    }
+
     class FunctionHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         var nameText  = itemView.name
     }
