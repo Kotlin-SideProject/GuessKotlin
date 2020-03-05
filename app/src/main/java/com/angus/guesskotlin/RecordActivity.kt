@@ -8,11 +8,20 @@ import android.os.Bundle
 import com.angus.guesskotlin.data.GameDatabase
 import com.angus.guesskotlin.data.Record
 import kotlinx.android.synthetic.main.activity_record.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
-class RecordActivity : AppCompatActivity() {
+class RecordActivity : AppCompatActivity(), CoroutineScope {
 
+    private lateinit var job: Job
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Main
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        job = Job()
         setContentView(R.layout.activity_record)
         val count =  intent.getIntExtra("COUNTER", -1)
         counter.setText("第${count}次答對")
@@ -25,14 +34,16 @@ class RecordActivity : AppCompatActivity() {
                 .apply()
 
             //Room Dao
-            Thread(){
-                GameDatabase.getInstance(this)?.recordDao()?.insert(Record(nick, count))
-            }.start()
+            launch {
+                GameDatabase.getInstance(this@RecordActivity)?.recordDao()?.insert(Record(nick, count))
 
+            }
             val intent = Intent()
             intent.putExtra("NICKNAME", nick)
             setResult(Activity.RESULT_OK, intent)
             finish()
         }
     }
+
+
 }
