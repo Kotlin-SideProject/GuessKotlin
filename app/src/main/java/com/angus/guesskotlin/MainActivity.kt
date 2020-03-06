@@ -7,15 +7,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.row_function.view.*
 
 class MainActivity : AppCompatActivity() {
+    var TAG = "MainActivity"
     val functions = listOf<String>(
         "Camera",
         "Guess Game",
@@ -30,6 +34,26 @@ class MainActivity : AppCompatActivity() {
         recycler.layoutManager = LinearLayoutManager(this)
         recycler.setHasFixedSize(true)
         recycler.adapter = FunctionAdapter()
+        //Spinner
+        var colors = listOf("Red", "Green", "Blue")
+        var adapter = ArrayAdapter<String>(this@MainActivity, android.R.layout.simple_spinner_item, colors)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                Log.d(TAG, "onItemSelected: ${colors[position]}")
+            }
+
+        }
     }
     inner class FunctionAdapter : RecyclerView.Adapter<FunctionHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FunctionHolder {
