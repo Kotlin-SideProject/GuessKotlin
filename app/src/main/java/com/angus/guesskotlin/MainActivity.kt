@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.row_function.view.*
 
 class MainActivity : AppCompatActivity() {
     private val REQUEST_CODE_CAMERA: Int = 100
+    var cacheService : Intent? = null
     var TAG = "MainActivity"
     val functions = listOf<String>(
         "Camera",
@@ -104,9 +105,19 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onStop() {
+        super.onStop()
+        stopService(cacheService)
+        Log.d(TAG, "stopService:");
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.action_cache -> Log.d(TAG, "cache selected: ");
+            R.id.action_cache -> {
+                Log.d(TAG, "cache selected: ")
+                 cacheService = Intent(this, CacheService::class.java)
+                startActivity(cacheService)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
