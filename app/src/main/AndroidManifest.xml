@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service android:name=".CacheService"/>
+<!--        <service android:name=".CacheService"/>-->
         <activity android:name=".RecordListActivity"></activity>
         <activity android:name=".RecordActivity" />
         <activity
@@ -24,6 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name=".CacheService"/>
     </application>
 
 

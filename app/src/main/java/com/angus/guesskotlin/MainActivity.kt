@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        stopService(cacheService)
+//        stopService(cacheService)
         Log.d(TAG, "stopService:");
     }
 
@@ -116,7 +116,7 @@ class MainActivity : AppCompatActivity() {
             R.id.action_cache -> {
                 Log.d(TAG, "cache selected: ")
                  cacheService = Intent(this, CacheService::class.java)
-                startActivity(cacheService)
+                startService(cacheService)
             }
         }
         return super.onOptionsItemSelected(item)
