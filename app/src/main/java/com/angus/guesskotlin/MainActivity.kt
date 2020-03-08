@@ -96,6 +96,7 @@ class MainActivity : AppCompatActivity() {
             }
             1 -> startActivity(Intent(this, MaterialActivity::class.java))
             2 -> startActivity(Intent(this, RecordListActivity::class.java))
+            4 -> startActivity(Intent(this, NewsActivity::class.java))
             else -> return
         }
     }
@@ -117,6 +118,8 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, "cache selected: ")
                  cacheService = Intent(this, CacheService::class.java)
                 startService(cacheService)
+                startService(Intent(this, CacheService::class.java))
+                startService(Intent(this, CacheService::class.java))
             }
         }
         return super.onOptionsItemSelected(item)
